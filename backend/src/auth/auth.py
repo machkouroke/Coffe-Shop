@@ -21,13 +21,13 @@ class AuthError(Exception):
 def get_token_auth_header():
     # check if authorization is not in request
     if 'Authorization' not in request.headers:
-        abort(401)
+        abort(401, "Authorization header is expected")
     # get the token
     auth_header = request.headers['Authorization']
     header_parts = auth_header.split(' ')
     # check if token is valid
     if len(header_parts) != 2 or header_parts[0].lower() != 'bearer':
-        abort(401)
+        abort(401, "Authorization header must be Bearer token")
     return header_parts[1]
 
 
@@ -47,6 +47,7 @@ def check_permissions(permission, payload):
 
 
 def verify_decode_jwt(token):
+    print(request.headers["Authorization"])
     jsonurl = urlopen(f'https://{AUTH0_DOMAIN}/.well-known/jwks.json')
     jwks = json.loads(jsonurl.read())
     unverified_header = jwt.get_unverified_header(token)
@@ -86,7 +87,7 @@ def verify_decode_jwt(token):
 
     raise AuthError({
         'code': 'invalid_header',
-        'description': 'Unable to find the appropriate key.'
+        'description': f'Unable to find the appropriate key., {request.headers["Authorization"]}'
     }, 400)
 
 

@@ -43,7 +43,7 @@ export FLASK_APP=api.py;
 To run the server, execute:
 
 ```bash
-flask run --reload
+flask --app "backend/src/api.py" run --reload
 ```
 
 The `--reload` flag will detect file changes and restart the server automatically.
