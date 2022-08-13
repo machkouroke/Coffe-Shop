@@ -65,13 +65,13 @@ class Drink(db.Model):
     '''
 
     def short(self):
-        print(json.loads(self.recipe))
-        short_recipe = [{'color': r['color'], 'parts': r['parts']} for r in json.loads(self.recipe)]
-        return {
-            'id': self.id,
-            'title': self.title,
-            'recipe': short_recipe
-        }
+        recipe = json.loads(self.recipe)
+        if isinstance(recipe, dict):
+            short_recipe = [{'color': recipe['color'], 'parts': recipe['parts']}]
+        else:
+            short_recipe = [{'color': r['color'], 'parts': r['parts']} for r in json.loads(self.recipe)]
+
+        return {'id': self.id, 'title': self.title, 'recipe': short_recipe}
 
     '''
     long()

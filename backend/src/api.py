@@ -1,3 +1,4 @@
+from .database.models import db_drop_and_create_all
 from . import app
 from .routes.route import index, create_drink, get_drinks, get_drinks_detail, update_drink, delete_drink
 from .errors.error import forbidden, unauthorized, not_found, bad_request, server_error, unprocessable
@@ -10,7 +11,7 @@ def after_request(response):
     return response
 
 
-# db_drop_and_create_all()
+db_drop_and_create_all()
 
 # ROUTES
 
